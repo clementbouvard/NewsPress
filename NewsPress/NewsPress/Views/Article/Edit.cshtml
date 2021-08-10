@@ -1,0 +1,111 @@
+﻿@model NewsPress.Models.Article
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+
+<div class="container">
+    <div style="width:75%; margin:auto">
+        <h1>Edit</h1>
+
+        <h4>Article</h4>
+        <hr />
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Text" class="control-label"></label>
+                <textarea asp-for="Text" rows="15" cols="200" class="form-control"></textarea>
+                <span asp-validation-for="Text" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="display:none">
+                <label asp-for="PictureName" class="control-label"></label>
+                <input asp-for="PictureName" class="form-control" />
+                <span asp-validation-for="PictureName" class="text-danger"></span>
+            </div>
+            <img style="width:100%" src="~/Images/@ViewBag.article.PictureName" />
+            <div class="form-group">
+                <label asp-for="ImageFile" class="control-label"> Image to replace the current one</label>
+                <input type="file" asp-for="ImageFile" accept="image/*" />
+
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+
+            @foreach (var theme in ViewBag.Themes)
+            {
+                bool check = false;
+                string[] subthemes = ViewBag.article.Themes.Split(',');
+                foreach (var subtheme in subthemes)
+                {
+                    if (theme.Id.ToString() == subtheme)
+                    {
+                        check = true;
+                    }
+                }
+                if (check == true)
+                {
+                    <div class="form-group">
+                        <input name="AreChecked" type="checkbox" value="@theme.Id" checked /> @theme.Name<br />
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <input name="AreChecked" type="checkbox" value="@theme.Id" /> @theme.Name<br />
+                    </div>
+                }
+
+            }
+            @if (ViewBag.article.status == 0)
+            {
+                <div class="form-group">
+                    <input name="status" type="radio" value="0" checked /> Draft<br />
+                    <input name="status" type="radio" value="1" /> Published<br />
+                    <input name="status" type="radio" value="2" /> Archived<br />
+                </div>
+            }
+            else if (ViewBag.article.status == 1)
+            {
+                <div class="form-group">
+                    <input name="status" type="radio" value="0" /> Draft<br />
+                    <input name="status" type="radio" value="1" checked /> Published<br />
+                    <input name="status" type="radio" value="2" /> Archived<br />
+                </div>
+            }
+            else if (ViewBag.article.status == 2)
+            {
+                <div class="form-group">
+                    <input name="status" type="radio" value="0" /> Draft<br />
+                    <input name="status" type="radio" value="1" /> Published<br />
+                    <input name="status" type="radio" value="2" checked /> Archived<br />
+                </div>
+            }
+
+
+            <div class="form-group" style="display:none">
+                <label asp-for="WrittenDate" class="control-label"></label>
+                <input asp-for="WrittenDate" class="form-control" />
+                <span asp-validation-for="PictureName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+        <div>
+            <a class="btn btn-danger" href="/Article/Delete/@ViewBag.article.Id">Delete this article</a>
+        </div>
+
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </div>
+</div>
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

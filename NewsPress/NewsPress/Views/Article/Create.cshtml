@@ -1,0 +1,50 @@
+﻿@model NewsPress.Models.Article
+
+@{
+    ViewData["Title"] = "Create";
+}
+<h1>Create a new Article</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Text" class="control-label"></label>
+                <textarea asp-for="Text" rows="15" cols="200" class="form-control"></textarea>
+                <span asp-validation-for="Text" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageFile" class="control-label"></label>
+                <div class="col-md-5">
+                    <input type="file" asp-for="ImageFile" accept="image/*" />
+                </div>
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+
+            @foreach (var theme in ViewBag.Themes)
+            {
+                <div class="form-group">
+                    <input name="AreChecked" type="checkbox" value="@theme.Id" /> @theme.Name<br />
+                </div>
+            }
+        <div class="form-group">
+            <input name="status" type="radio" value="0" checked/> Draft<br />
+            <input  name="status" type="radio" value="1" /> Published<br />
+            <input name="status" type="radio" value="2" /> Archived<br />
+        </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

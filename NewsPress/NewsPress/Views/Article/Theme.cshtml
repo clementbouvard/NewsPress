@@ -1,0 +1,76 @@
+﻿@{
+    ViewData["Title"] = "All Articles";
+}
+
+
+@model IEnumerable<NewsPress.Models.Article>
+<h1>@ViewBag.Name</h1>
+<br />
+
+@if (Model.Count() > 0)
+{
+    var OrderedModel = Model.OrderByDescending(Article => Article.WrittenDate);
+    @foreach (var article in OrderedModel)
+    {
+        if (article.status == 1)
+                    {
+<a style="color: inherit; text-decoration: none;" href="/Article/Details/@article.Id">
+    @{
+        article.Themes.Split();
+
+        string[] subthemes = article.Themes.Split(',');
+
+        Boolean intheme = false;
+
+        foreach (var subtheme in subthemes)
+        {
+            if (subtheme == ViewBag.id.ToString())
+                intheme = true;
+        }
+
+
+
+        @if (intheme)
+        {
+            <div class="parentspace">
+                <div class="parentspace">
+                    <div style="margin-right:10px">
+                        <img height="100" width="100" src="~/Images/@article.PictureName" />
+                    </div>
+
+
+                    <div>
+                        <h2> @article.Title</h2><p>
+
+                            @if (article.Text.Length < 100)
+                            {
+                                @article.Text;
+                            }
+                            else
+                            {
+                                @article.Text.Substring(0, 100);
+                            }
+                            ...
+                        </p>
+                    </div>
+                </div>
+
+
+
+
+                <div>
+                    <p class="align-text-bottom">@(article.WrittenDate.ToString("dd MMMM")) @article.WrittenDate.ToString("HH:mm")</p>
+                </div>
+            </div>
+            <hr />
+
+
+        }
+
+    }
+</a>
+                    }
+
+            }
+            }
+        
