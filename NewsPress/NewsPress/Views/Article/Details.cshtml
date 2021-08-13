@@ -1,52 +1,71 @@
 ﻿@{
     ViewData["Title"] = @ViewBag.article.Title;
 }
+@using Microsoft.AspNetCore.Identity
+@using NewsPress.Areas.Identity.Data
+@inject SignInManager<Author> SignInManager
+@inject UserManager<Author> UserManager
 @model IEnumerable<NewsPress.Models.Theme>
-    <div class="container">
+<div class="container">
 
 
 
-        <div style="position: relative;margin:auto; width:75%">
-            <img style="width:100%" src="~/Images/@ViewBag.article.PictureName" />
-            <div class="parentspace">
-                <h1 style="width:100%; font-size:3vw">@ViewBag.article.Title</h1>
-                <p style="white-space:nowrap;margin-top:1.5em;color:dimgray">@ViewBag.article.WrittenDate.ToString("dd MMMM HH:mm")</p>
+    <div style="position: relative;margin:auto; width:75%">
+        <img style="width:100%" src="~/Images/@ViewBag.article.PictureName" />
+        <div class="parentspace">
 
-            </div>
-            <hr />
-            @if (ViewBag.article.WrittenDate != ViewBag.article.EditDate)
-            {<p style="color:dimgray"> Modified on : @ViewBag.article.EditDate.ToString("dd MMMM HH:mm")</p>
+            @if (ViewBag.article.status == 0)
+            {
+                <h2> <i>Draft : @ViewBag.article.Title</i></h2>
             }
-            <p>
-                @ViewBag.article.Text
-            </p>
-            <hr />
-            <div class="parentspace" style="flex-wrap:wrap">
-                <p style="color:dimgray">Written by Bouvard Clément</p>
-                <div class="parentleft">
-                    @{
-                    string[] subthemes = ViewBag.article.Themes.Split(',');
-                    }
-                    @foreach (var subtheme in subthemes)
-                    {
-                    @foreach(var theme in Model)
-                    {
-                    if (subtheme == theme.Id.ToString())
-                       {<a style="color: inherit; text-decoration: none;" href="/Article/Theme/@theme.Name">
-                        <p style="border:solid;border-color:lightgray;background-color:lightgrey;margin:0.2em"> @theme.Name</p>
-                        </a> }                    
-                    }
-                    }
-                </div>
-            </div>
-
-
-
-
-
+            else if (ViewBag.article.status == 1)
+            {
+                <h2> @ViewBag.article.Title</h2>
+            }
+            else
+            {
+                <h2><i>Archived : @ViewBag.article.Title</i></h2>
+            }
+            <p style="white-space:nowrap;margin-top:1.5em;color:dimgray">@ViewBag.article.WrittenDate.ToString("dd MMMM HH:mm")</p>
 
         </div>
+        <hr />
+        @if (ViewBag.article.WrittenDate != ViewBag.article.EditDate)
+        {<p style="color:dimgray"> Modified on : @ViewBag.article.EditDate.ToString("dd MMMM HH:mm")</p>
+    }
+        <p>
+            @ViewBag.article.Text
+        </p>
+        <hr />
+        <div class="parentspace" style="flex-wrap:wrap">
+            <a style=" text-decoration: none;" href="/Author/Profile/@ViewBag.article.AuthorId"><p style="color:dimgray">Written by @ViewBag.authorName</p></a>
+            <div class="parentleft">
+                @{
+                    string[] subthemes = ViewBag.article.Themes.Split(',');
+                }
+                @foreach (var subtheme in subthemes)
+                {
+                    @foreach (var theme in Model)
+                    {
+                        if (subtheme == theme.Id.ToString())
+                        {<a style="color: inherit; text-decoration: none;" href="/Article/Theme/@theme.Name">
+                                <p style="border:solid;border-color:lightgray;background-color:lightgrey;margin:0.2em"> @theme.Name</p>
+                            </a>}
+                    }
+                }
+            </div>
+        </div>
+
+        @if (SignInManager.IsSignedIn(User))
+        {
+
+                @if (@ViewBag.article.AuthorId == UserManager.GetUserAsync(User).Result.Id || UserManager.GetUserAsync(User).Result.admin == true)
+                {
+                    <a href="/Article/Edit/@ViewBag.article.Id">Edit Article</a>
+                }
+        }
+            </div>
 
 
 
-    </div>
+</div>

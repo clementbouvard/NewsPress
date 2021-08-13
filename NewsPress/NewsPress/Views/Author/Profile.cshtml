@@ -1,0 +1,208 @@
+﻿@{
+    ViewData["Title"] = ViewBag.FullName;
+}
+@using Microsoft.AspNetCore.Identity
+@using NewsPress.Areas.Identity.Data
+@model IEnumerable<NewsPress.Models.Article>
+@inject SignInManager<Author> SignInManager
+@inject UserManager<Author> UserManager
+@if (ViewBag.author.approved|| SignInManager.IsSignedIn(User) && ( UserManager.GetUserAsync(User).Result.admin== true||UserManager.GetUserAsync(User).Result.Id==ViewBag.author.Id))
+{
+    <div class="container">
+
+
+
+        <div style="position: relative;margin:auto; width:75%">
+
+            <div class="parentleft">
+                <img style="width:200px;height:200px" class="rounded-circle" src="~/Images/@ViewBag.author.ProfilePicture" />
+                <div class="parentrow">
+                    <h1 style="width:100%; font-size:3vw">@ViewBag.FullName </h1>
+                    <p>@ViewBag.author.description</p>
+                    <p>@ViewBag.author.JoiningDate.ToString("HH:mm") @(ViewBag.author.JoiningDate.ToString("dd MMMM yyyy")) </p>
+
+
+                    @if (ViewBag.author.admin)
+                    {
+                        <p>Admin</p>
+                    }
+                    else
+                    {
+                        if (ViewBag.author.approved)
+                        {
+                            <p>Journalist</p>
+                        }
+                        else
+                        {
+                            <p>Unapproved Account</p>
+                        }
+
+                    }
+
+
+
+
+
+                </div>
+            </div>
+
+            @if (SignInManager.IsSignedIn(User))
+            {
+                @if (UserManager.GetUserAsync(User).Result.Id == ViewBag.author.Id)
+                {
+                    <a class="btn btn-primary" style="margin:5px" href="/Author/Edit/@ViewBag.author.Id">Edit profile</a>
+                }
+                @if (UserManager.GetUserAsync(User).Result.admin == true)
+                {
+
+                    @if (ViewBag.author.approved && ViewBag.author.admin)
+                    {
+                        <br />
+                        <div class="parentleft">
+                            <a class="btn btn-primary" style="margin:5px" href="/Author/Approve/@ViewBag.author.Id">Disapprove Journalist</a>
+
+                            <a class="btn btn-primary" style="margin:5px" href="/Author/AdminToggle/@ViewBag.author.Id">Remove from admin</a>
+
+
+                        </div>
+
+                    }
+
+                    @if (ViewBag.author.approved && ViewBag.author.admin == false)
+                    {
+                        <br />
+                        <div>
+                            <a class="btn btn-primary" href="/Author/Approve/@ViewBag.author.Id">Disapprove Journalist</a>
+
+                        </div>
+                        <br />
+                        <div>
+                            <a class="btn btn-primary" href="/Author/AdminToggle/@ViewBag.author.Id">Set as admin</a>
+
+                        </div>
+
+                    }
+                    @if (ViewBag.author.approved == false)
+                    {
+                        <br />
+                        <div>
+                            <a class="btn btn-primary" href="/Author/Approve/@ViewBag.author.Id">Approve Journalist</a>
+
+                        </div>
+
+                    }
+                }
+
+            }
+
+
+
+            <hr />
+            @if (SignInManager.IsSignedIn(User))
+            {
+
+                if (ViewBag.author.Id == UserManager.GetUserAsync(User).Result.Id && UserManager.GetUserAsync(User).Result.approved == true)
+                {
+                    <div class="">
+                        <a class="btn btn-primary" asp-area="" asp-controller="Article" asp-action="Create"> + Create Article</a>
+                        <br />
+                    </div>
+                    <br />
+                }
+            }
+
+            @if (Model.Count() > 0)
+            {
+                var OrderedModel = Model.OrderByDescending(Article => Article.WrittenDate);
+                @foreach (var article in OrderedModel)
+                {
+                    if (article.AuthorId == ViewBag.author.Id)
+                    {
+
+                        if (SignInManager.IsSignedIn(User) && (article.AuthorId == UserManager.GetUserAsync(User).Result.Id || UserManager.GetUserAsync(User).Result.admin == true))
+                        {
+                            <a style="color: inherit; text-decoration: none;" href="/Article/Details/@article.Id">
+                                <div class="parentspace">
+                                    <div class="parentspace">
+                                        <div style="margin-right:10px">
+                                            <img height="100" width="100" src="~/Images/@article.PictureName" />
+                                        </div>
+                                        <div>
+                                            @if (article.status == 0)
+                                            {
+                                                <h2> <i>Draft : @article.Title</i></h2>
+                                            }
+                                            else if (article.status == 1)
+                                            {
+                                                <h2> @article.Title</h2>
+                                            }
+                                            else
+                                            {
+                                                <h2><i>Archived : @article.Title</i></h2>
+                                            }
+                                            <p>
+                                                @if (article.Text.Length < 100)
+                                                {
+                                                    @article.Text;
+                                                }
+                                                else
+                                                {
+                                                    @article.Text.Substring(0, 100);
+                                                }
+                                                ...
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p>@(article.WrittenDate.ToString("dd MMMM")) @article.WrittenDate.ToString("HH:mm")</p>
+                                    </div>
+                                </div>
+                                <hr />
+                            </a>
+                        }
+                        else if (article.status == 1)
+                        {
+                            <a style="color: inherit; text-decoration: none;" href="/Article/Details/@article.Id">
+                                <div class="parentspace">
+                                    <div class="parentspace">
+                                        <div style="margin-right:10px">
+                                            <img height="100" width="100" src="~/Images/@article.PictureName" />
+                                        </div>
+                                        <div>
+                                            <h2> @article.Title</h2>
+                                            <p>
+
+                                                @if (article.Text.Length < 100)
+                                                {
+                                                    @article.Text;
+                                                }
+                                                else
+                                                {
+                                                    @article.Text.Substring(0, 100);
+                                                }
+                                                ...
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p>@(article.WrittenDate.ToString("dd MMMM")) @article.WrittenDate.ToString("HH:mm")</p>
+                                    </div>
+                                </div>
+                                <hr />
+                            </a>
+                        }
+                    }
+
+
+
+                }
+            }
+
+        </div>
+
+    </div>
+}
+else
+{
+    <p>not approved account</p>
+}

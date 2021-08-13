@@ -26,8 +26,8 @@ namespace NewsPress.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("int");
+                    b.Property<string>("AuthorId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("EditDate")
                         .HasColumnType("datetime2");

@@ -11,18 +11,18 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+                <input asp-for="Title" class="form-control" required/>
+                <span asp-validation-for="Title" class="text-danger" ></span>
             </div>
             <div class="form-group">
                 <label asp-for="Text" class="control-label"></label>
-                <textarea asp-for="Text" rows="15" cols="200" class="form-control"></textarea>
+                <textarea asp-for="Text" rows="15" cols="200" class="form-control" required></textarea>
                 <span asp-validation-for="Text" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ImageFile" class="control-label"></label>
                 <div class="col-md-5">
-                    <input type="file" asp-for="ImageFile" accept="image/*" />
+                    <input type="file" asp-for="ImageFile" accept="image/*" required/>
                 </div>
                 <span asp-validation-for="ImageFile" class="text-danger"></span>
             </div>

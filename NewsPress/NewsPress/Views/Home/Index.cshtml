@@ -9,10 +9,57 @@
         {
             int i = 0;
             var OrderedModel = Model.OrderByDescending(Article => Article.WrittenDate);
+       
             @foreach (var article in OrderedModel)
             {
+
+
+
                 if (article.status == 1)
                 {
+                    @if(i==1)
+                        {
+                         <div class="parentleft">
+            <div class="dropdown">
+                <button class="btn btn-dark" style="margin:5px" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Filter by theme
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <form asp-controller="Article" asp-action="ThemeFilter" class="dropdown-item">
+                        <div class="form-group">
+                            @foreach (var theme in ViewBag.themeList)
+                            {
+
+                                <input name="AreChecked" type="checkbox" value="@theme.Id" /> @theme.Name<br />
+
+                            }
+                        </div>
+                        <button value="ThemeFilter" type="submit" class="btn btn-primary">Filter</button>
+                    </form>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="btn btn-dark" style="margin:5px" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Filter by author
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <form asp-controller="Article" asp-action="AuthorFilter" class="dropdown-item">
+                        <div class="form-group">
+                            @foreach (var author in ViewBag.authorList)
+                            {
+
+                                <input name="AreChecked" type="checkbox" value="@author.Id" /> @author.FirstName @author.LastName<br />
+
+                            }
+                        </div>
+                        <button value="AuthorFilter" type="submit" class="btn btn-primary">Filter</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+           
+            <hr />
+                        }
                     <a style="color: inherit; text-decoration: none;" href="/Article/Details/@article.Id">
                         @if (i == 0)
                         {
@@ -21,9 +68,12 @@
                                 <div class="text-block">
                                     <h1 style="width:100%; font-size:3vw">@article.Title</h1>
                                 </div>
-                                <hr />
+
                             </div>
+                            <hr />
                         }
+
+
                         @if (i != 0 && i < 8)
                         {
                             <div class="parentspace">
@@ -64,12 +114,12 @@
                     i++;
                 }
 
-                
+
             }
             <div style="text-align:center">
                 <a class="btn btn-primary" asp-area="" asp-controller="Article" asp-action="Index">See All</a>
             </div>
-    
+
 
         }
     </div>

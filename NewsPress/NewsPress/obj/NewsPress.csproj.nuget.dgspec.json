@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\dwans\\source\\repos\\NewsPress\\NewsPress\\NewsPress.csproj": {}
+    "C:\\Users\\dwans\\Documents\\GitHub\\NewsPress\\NewsPress\\NewsPress\\NewsPress.csproj": {}
   },
   "projects": {
-    "C:\\Users\\dwans\\source\\repos\\NewsPress\\NewsPress\\NewsPress.csproj": {
+    "C:\\Users\\dwans\\Documents\\GitHub\\NewsPress\\NewsPress\\NewsPress\\NewsPress.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\dwans\\source\\repos\\NewsPress\\NewsPress\\NewsPress.csproj",
+        "projectUniqueName": "C:\\Users\\dwans\\Documents\\GitHub\\NewsPress\\NewsPress\\NewsPress\\NewsPress.csproj",
         "projectName": "NewsPress",
-        "projectPath": "C:\\Users\\dwans\\source\\repos\\NewsPress\\NewsPress\\NewsPress.csproj",
+        "projectPath": "C:\\Users\\dwans\\Documents\\GitHub\\NewsPress\\NewsPress\\NewsPress\\NewsPress.csproj",
         "packagesPath": "C:\\Users\\dwans\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\dwans\\source\\repos\\NewsPress\\NewsPress\\obj\\",
+        "outputPath": "C:\\Users\\dwans\\Documents\\GitHub\\NewsPress\\NewsPress\\NewsPress\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\dwans\\AppData\\Roaming\\NuGet\\NuGet.Config",

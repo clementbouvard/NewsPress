@@ -29,6 +29,11 @@
                 <input asp-for="PictureName" class="form-control" />
                 <span asp-validation-for="PictureName" class="text-danger"></span>
             </div>
+            <div class="form-group" style="display:none">
+                <label asp-for="AuthorId" class="control-label"></label>
+                <input asp-for="AuthorId" class="form-control" />
+                <span asp-validation-for="AuthorId" class="text-danger"></span>
+            </div>
             <img style="width:100%" src="~/Images/@ViewBag.article.PictureName" />
             <div class="form-group">
                 <label asp-for="ImageFile" class="control-label"> Image to replace the current one</label>

@@ -29,10 +29,10 @@
                             <a class="nav-link text-dark" href="/Article/Theme/Sport">Sport</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="/Article/Theme/Climate" >Climate</a>
+                            <a class="nav-link text-dark" href="/Article/Theme/Climate">Climate</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="/Article/Theme/Politic" >Politic</a>
+                            <a class="nav-link text-dark" href="/Article/Theme/Politic">Politic</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" href="/Article/Theme/Technology">Technology</a>
@@ -41,8 +41,16 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Author" asp-action="Index">Authors</a>
                         </li>
                     </ul>
-                    <input type="text" placeholder="Search...">
-                     <a class="nav-link text-dark" href="/identity/account/login"><img width=30 height=30 class="rounded-circle" src="~/Images/account.png" />Login</a>
+                  
+                    
+                    <form asp-controller="Article" asp-action="Search" method="post">
+                        <input type="text" name="searchbar" placeholder="Search...">
+
+                        <button type="submit"><img style="height:15px"src="~/Images/search.png"></button>
+                    </form>
+
+                    <partial name="_LoginPartial" />
+
                 </div>
             </div>
         </nav>

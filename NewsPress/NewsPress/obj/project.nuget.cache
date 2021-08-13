@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "l27uV0DHKPgItYYSJH3V689k2fSXvQTpp7PLcoLp5445BV7CNgiSoHFMqdek8FfSmQSTGYwVmc2TFioJJyb9rg==",
+  "dgSpecHash": "7y2UMgHNENjhTRszJZH9dDU3VlCYnehQeadwL6sjhI4kbYoIIQxHVZtYyVTA9Yfn4ehJbA70wIss/0efWWSdzA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\dwans\\source\\repos\\NewsPress\\NewsPress\\NewsPress.csproj",
+  "projectFilePath": "C:\\Users\\dwans\\Documents\\GitHub\\NewsPress\\NewsPress\\NewsPress\\NewsPress.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\dwans\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\dwans\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\5.0.8\\microsoft.aspnetcore.cryptography.internal.5.0.8.nupkg.sha512",

@@ -1,0 +1,126 @@
+﻿@{
+    ViewData["Title"] = "Theme Filter";
+}
+
+@using Microsoft.AspNetCore.Identity
+@using NewsPress.Areas.Identity.Data
+@inject SignInManager<Author> SignInManager
+@inject UserManager<Author> UserManager
+<div class="parentleft">
+    <div class="dropdown">
+        <button class="btn btn-dark" style="margin:5px" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Filter by theme
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <form asp-controller="Article" asp-action="ThemeFilter" class="dropdown-item">
+                <div class="form-group">
+                    @foreach (var theme in ViewBag.themeList)
+                    {
+
+                        <input name="AreChecked" type="checkbox" value="@theme.Id" /> @theme.Name<br />
+
+                    }
+                </div>
+                <button value="ThemeFilter" type="submit" class="btn btn-primary">Filter</button>
+            </form>
+        </div>
+    </div>
+    <div class="dropdown">
+        <button class="btn btn-dark" style="margin:5px" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Filter by author
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <form asp-controller="Article" asp-action="AuthorFilter" class="dropdown-item">
+                <div class="form-group">
+                    @foreach (var author in ViewBag.authorList)
+                    {
+
+                        <input name="AreChecked" type="checkbox" value="@author.Id" /> @author.FirstName @author.LastName<br />
+
+                    }
+                </div>
+                <button value="AuthorFilter" type="submit" class="btn btn-primary">Filter</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+
+@foreach (var article in ViewBag.FilterArticle)
+{
+    if (SignInManager.IsSignedIn(User) && (article.AuthorId == UserManager.GetUserAsync(User).Result.Id || UserManager.GetUserAsync(User).Result.admin == true))
+    {
+        <a style="color: inherit; text-decoration: none;" href="/Article/Details/@article.Id">
+            <div class="parentspace">
+                <div class="parentspace">
+                    <div style="margin-right:10px">
+                        <img height="100" width="100" src="~/Images/@article.PictureName" />
+                    </div>
+                    <div>
+                        @if (article.status == 0)
+                        {
+                            <h2> <i>Draft : @article.Title</i></h2>
+                        }
+                        else if (article.status == 1)
+                        {
+                            <h2> @article.Title</h2>
+                        }
+                        else
+                        {
+                            <h2><i>Archived : @article.Title</i></h2>
+                        }
+                        <p>
+                            @if (article.Text.Length < 100)
+                            {
+                                @article.Text;
+                            }
+                            else
+                            {
+                                @article.Text.Substring(0, 100);
+                            }
+                            ...
+                        </p>
+                    </div>
+                </div>
+                <div>
+                    <p>@(article.WrittenDate.ToString("dd MMMM")) @article.WrittenDate.ToString("HH:mm")</p>
+                </div>
+            </div>
+            <hr />
+        </a>
+    }
+    else if (article.status == 1)
+    {
+        <a style="color: inherit; text-decoration: none;" href="/Article/Details/@article.Id">
+            <div class="parentspace">
+                <div class="parentspace">
+                    <div style="margin-right:10px">
+                        <img height="100" width="100" src="~/Images/@article.PictureName" />
+                    </div>
+                    <div>
+                        <h2> @article.Title</h2>
+                        <p>
+
+                            @if (article.Text.Length < 100)
+                            {
+                                @article.Text;
+                            }
+                            else
+                            {
+                                @article.Text.Substring(0, 100);
+                            }
+                            ...
+                        </p>
+                    </div>
+                </div>
+                <div>
+                    <p>@(article.WrittenDate.ToString("dd MMMM")) @article.WrittenDate.ToString("HH:mm")</p>
+                </div>
+            </div>
+            <hr />
+        </a>
+    }
+
+
+}

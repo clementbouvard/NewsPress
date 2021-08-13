@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = "All Authors";
+}
+
+
+
+@using Microsoft.AspNetCore.Identity
+@using NewsPress.Areas.Identity.Data
+@model IEnumerable<NewsPress.Models.Article>
+@inject SignInManager<Author> SignInManager
+@inject UserManager<Author> UserManager
+
+<h1>All authors</h1>
+<br />
+
+
+   
+    @foreach (var author in ViewBag.authorList)
+    {
+        @if(author.approved ||( SignInManager.IsSignedIn(User) && UserManager.GetUserAsync(User).Result.admin == true))
+        {
+            <a style="color: inherit; text-decoration: none;" href="/Author/Profile/@author.Id">
+                <div class="parentspace">
+                    <div class="parentspace">
+                        <div style="margin-right:10px">
+                            <img height="100" width="100" src="~/Images/@author.ProfilePicture" />
+                        </div>
+
+
+                        <div>
+                            <h2> @author.FirstName @author.LastName</h2><p>
+
+                                @if (author.description.Length < 100)
+                                {
+                                    @author.description;
+                                }
+                                else
+                                {
+                                    @author.description.Substring(0, 100);
+                                    
+                                    
+                                }
+                                ...
+                            </p>
+                        </div>
+                    </div>
+
+
+
+
+                    <div>
+                        <p>@(author.JoiningDate.ToString("dd MMMM")) @author.JoiningDate.ToString("HH:mm")</p>
+                    </div>
+                </div>
+                <hr />
+            </a>
+        }
+
+
+    }
+

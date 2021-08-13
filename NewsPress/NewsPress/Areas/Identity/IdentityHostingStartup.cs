@@ -20,7 +20,7 @@ namespace NewsPress.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("AuthDbContextConnection")));
 
-                services.AddDefaultIdentity<Author>(options => options.SignIn.RequireConfirmedAccount = true)
+                services.AddDefaultIdentity<Author>(options => options.SignIn.RequireConfirmedAccount = false)
                     .AddEntityFrameworkStores<AuthDbContext>();
             });
         }

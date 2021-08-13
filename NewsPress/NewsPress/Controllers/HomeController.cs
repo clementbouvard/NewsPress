@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NewsPress.Areas.Identity.Data;
 using NewsPress.Data;
 using NewsPress.Models;
 using System;
@@ -14,18 +15,24 @@ namespace NewsPress.Controllers
     public class HomeController : Controller
     {
     private readonly ApplicationDbContext _db;
- 
+        private readonly AuthDbContext _dbAuth;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger,ApplicationDbContext db)
+        public HomeController(ILogger<HomeController> logger,ApplicationDbContext db, AuthDbContext dbAuth)
         {
             _logger = logger;
             _db = db;
+            _dbAuth = dbAuth;
         }
 
         public IActionResult Index()
         {
             IEnumerable<Article> objList = _db.Articles;
+            IEnumerable<Theme> themeList = _db.Themes;
+            ViewBag.themeList = themeList;
+
+            IEnumerable<Author> authorList = _dbAuth.Authors;
+            ViewBag.authorList = authorList; 
             return View(objList);
         }
 
